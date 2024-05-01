@@ -11,7 +11,8 @@ class TimeRecordController extends Controller
      */
     public function index()
     {
-        return view('hello');
+        $timeRecords = TimeRecord::all();
+        return response()->json(['data' => $timeRecords], 200);
     }
 
     /**
@@ -25,12 +26,13 @@ class TimeRecordController extends Controller
                 'client' => 'required|string',
                 'timeIn' => 'required|string',
                 'timeOut' => 'required|string',
-                'break' => 'nullable|integer',
+                'timebreak' => 'nullable|integer',
                 'workingHours' => 'required|string',
                 'hourlyRate' => 'required|string',
                 'description' => 'nullable|string',
                 'notes' => 'nullable|string',
-                'status' => 'required|boolean',
+                'tags' => 'nullable|string',
+                'status' => 'nullable|string',
                 'billable' => 'required|boolean',
             ]);
     
@@ -39,12 +41,23 @@ class TimeRecordController extends Controller
             return response()->json(['message' => 'Time record created successfully', 'data' => $timeRecord], 201);
         }
     }
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show()
     {
-        //
+        // Fetch all time records
+        $timeRecords = TimeRecord::all();
+    
+        // Check if any records were found
+        if ($timeRecords->isEmpty()) {
+            // If no records found, return a JSON response with an empty array
+            return response()->json(['data' => []], 200);
+        }
+    
+        // If records found, return them as JSON
+        return response()->json(['data' => $timeRecords], 200);
     }
 
     /**
@@ -52,7 +65,26 @@ class TimeRecordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $timeRecord = TimeRecord::findOrFail($id);
+
+        $validatedData = $request->validate([
+            'selectedProject' => 'required|string',
+            'client' => 'required|string',
+            'timeIn' => 'required|string',
+            'timeOut' => 'required|string',
+            'timebreak' => 'nullable|integer',
+            'workingHours' => 'required|string',
+            'hourlyRate' => 'required|string',
+            'description' => 'nullable|string',
+            'notes' => 'nullable|string',
+            'status' => 'nullable|string',
+            'tags' => 'nullable|string',
+            'billable' => 'required|boolean',
+        ]);
+
+        $timeRecord->update($validatedData);
+
+        return response()->json(['message' => 'Time record updated successfully', 'data' => $timeRecord], 200);
     }
 
     /**
@@ -60,6 +92,8 @@ class TimeRecordController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $timeRecord = TimeRecord::findOrFail($id);
+        $timeRecord->delete();
+        return response()->json(['message' => 'Time record deleted successfully'], 200);
     }
 }

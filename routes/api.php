@@ -20,7 +20,8 @@ Route::get('/price/hello' , function(){
     return 'price';
 });
 
-Route::post('/time_records', [App\Http\Controllers\TimeRecordController::class ,'store']);
+Route::post('/time_records', [TimeRecordController::class ,'store']);
+Route::get('/time_show', [TimeRecordController::class ,'show']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

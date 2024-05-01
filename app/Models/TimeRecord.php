@@ -19,12 +19,13 @@ class TimeRecord extends Model
         'client',
         'timeIn',
         'timeOut',
-        'break',
+        'timebreak',
         'workingHours',
         'hourlyRate',
         'description',
         'notes',
         'status',
+        'tags',
         'billable',
     ];
 }

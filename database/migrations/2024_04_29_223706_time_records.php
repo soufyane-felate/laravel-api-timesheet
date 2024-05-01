@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('client');
             $table->string('timeIn')->nullable();
             $table->string('timeOut')->nullable();
-            $table->integer('break')->default(0); 
+            $table->integer('timebreak')->default(0); 
             $table->string('workingHours')->nullable();
             $table->string('hourlyRate')->nullable();
             $table->string('description')->nullable();
             $table->string('notes')->nullable();
-            $table->boolean('status')->default(false);
+            $table->string('status')->nullable();
+            $table->string('tags')->nullable();
             $table->boolean('billable')->default(false); 
             $table->timestamps();
         });
