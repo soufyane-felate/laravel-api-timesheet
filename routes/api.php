@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TimeRecordController;
+use Maatwebsite\Excel\Facades\Excel;
+
+use App\Exports\TimeRecordsExport;
+
 
 
 /*
@@ -22,6 +26,9 @@ Route::get('/price/hello' , function(){
 
 Route::post('/time_records', [TimeRecordController::class ,'store']);
 Route::get('/time_show', [TimeRecordController::class ,'show']);
+Route::delete('/time_delete/{id}', [TimeRecordController::class ,'destroy']);
+Route::get('/export', [TimeRecordController::class ,'export']);
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\TimeRecord;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel; 
+use App\Exports\TimeRecordsExport;
+
 
 class TimeRecordController extends Controller
 {
@@ -95,5 +98,11 @@ class TimeRecordController extends Controller
         $timeRecord = TimeRecord::findOrFail($id);
         $timeRecord->delete();
         return response()->json(['message' => 'Time record deleted successfully'], 200);
+    }
+    public function export()
+    {
+        $timeRecords = TimeRecord::all();
+
+        return Excel::download(new TimeRecordsExport($timeRecords), 'time_records.xlsx');
     }
 }
